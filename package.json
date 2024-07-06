@@ -1,0 +1,22 @@
+{
+  "name": "raidrbot",
+  "version": "1.0.0",
+  "description": "Raid Discord Servers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sam-sneed/raidrbot.git"
+  },
+  "author": "Sam Sneed",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sam-sneed/raidrbot/issues"
+  },
+  "homepage": "https://github.com/sam-sneed/raidrbot#readme",
+  "dependencies": {
+    "discord.js": "^14.15.3"
+  }
+}
