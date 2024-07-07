@@ -1,1 +1,3 @@
-# raidrbott
+# raidrbot
+
+EDUCATAIONAL PURPOSES ONLY. RAIDING ISN'T COOL. 😉
